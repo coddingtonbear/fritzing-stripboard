@@ -1,4 +1,6 @@
 import datetime
+from typing import Any, Iterable, Protocol
+from xml.etree import ElementTree
 
 from pydantic import BaseModel, Field
 
@@ -44,3 +46,10 @@ class BoardSpecification(BaseModel):
     width: float
     height: float
     board: list[GridDefinition] = Field(default_factory=list)
+
+
+class NodeHandler(Protocol):
+    def __call__(
+        self, element: ElementTree.Element, config: Any, **kwargs
+    ) -> Iterable[ElementTree.Element]:
+        ...

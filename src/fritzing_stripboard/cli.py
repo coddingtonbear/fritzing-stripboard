@@ -5,7 +5,7 @@ from xml.etree import ElementTree
 import yaml
 
 from .types import BoardSpecification
-from .builder import build_svg
+from .svg import build_svg
 
 
 def main(args=sys.argv):
