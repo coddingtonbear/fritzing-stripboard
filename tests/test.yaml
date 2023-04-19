@@ -1,0 +1,20 @@
+meta:
+  title: 3-5-5-2 Board with Solid Bus
+  label: 3-5-5-2
+width: 50.5
+height: 100.5
+board:
+  - grid:
+      components:
+        - drilled: B2:D2
+        - drilled: F2:J2
+        - drilled: L2:P2
+        - drilled: R2:S2
+        - drilled: B3:D3
+        - drilled: F3:J3
+        - drilled: L3:P3
+        - drilled: R3:S3
+        - drilled: B4:D4
+        - drilled: F4:J4
+        - drilled: L4:P4
+        - drilled: R4:S4
