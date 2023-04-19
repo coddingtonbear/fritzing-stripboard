@@ -1,10 +1,8 @@
-# fritzing-stripboard
+# Fritzing Stripboard Generator
 
+Generates Fritzing components matching your particular stripboard.
 
-An example package. Generated with cookiecutter-pylibrary.
-
-* Free software: MIT license
-
+Inspired by Robert P Heller's project having a similar aim: https://github.com/RobertPHeller/fritzing-Stripboards
 
 ## Installation
 
