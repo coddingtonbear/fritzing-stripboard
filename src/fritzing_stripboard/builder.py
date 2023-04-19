@@ -64,7 +64,7 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
         attrib={
             "width": f"{board.width}mm",
             "height": f"{board.height}mm",
-            "viewbox": f"0 0 {board.width} {board.height}",
+            "viewbox": f"0 0 {board.width}mm {board.height}mm",
         },
     )
     g = ElementTree.SubElement(root, "g", attrib={"id": "breadboard"})
@@ -73,6 +73,7 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
         g,
         "path",
         attrib={
+            "transform": "scale(35433)",
             "id": "boardoutline",
             "strokewidth": "0",
             "stroke": "none",
@@ -109,12 +110,12 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
                         g,
                         "line",
                         attrib={
-                            "x1": str(start_x),
-                            "y1": str(start_y),
-                            "x2": str(end_x),
-                            "y2": str(end_y),
+                            "x1": f"{start_x}mm",
+                            "y1": f"{start_y}mm",
+                            "x2": f"{end_x}mm",
+                            "y2": f"{end_y}mm",
                             "stroke": "brown",
-                            "stroke-width": "1.5",
+                            "stroke-width": "1.5mm",
                             "style": "stroke-linecap:round; stroke-opacity: 0.5;",
                         },
                     )
@@ -129,10 +130,10 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
                             g,
                             "circle",
                             attrib={
-                                "cx": str(drill_x),
-                                "cy": str(drill_y),
-                                "r": "0.5",
-                                "stroke-width": "0.35",
+                                "cx": f"{drill_x}mm",
+                                "cy": f"{drill_y}mm",
+                                "r": "0.5mm",
+                                "stroke-width": "0.35mm",
                                 "stroke": "brown",
                                 "fill": "none",
                             },
