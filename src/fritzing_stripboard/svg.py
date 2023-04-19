@@ -8,7 +8,7 @@ from .types import (
     GridDefinition,
     GridDefinitionData,
     XYDrilledBus,
-    NodeHandler,
+    SvgNodeHandler,
 )
 from .grid import (
     InvalidCellRange,
@@ -22,8 +22,8 @@ class NodeTypeNotImplemented(Exception):
     pass
 
 
-def get_handler(component: BaseModel) -> NodeHandler:
-    handlers: dict[Type[BaseModel], NodeHandler] = {
+def get_handler(component: BaseModel) -> SvgNodeHandler:
+    handlers: dict[Type[BaseModel], SvgNodeHandler] = {
         GridDefinition: handle_grid_definition,
         XYDrilledBus: handle_xy_drilled_bus,
     }
@@ -72,16 +72,19 @@ def handle_xy_drilled_bus(
         },
     )
 
-    for drill_x, drill_y in get_drill_positions_in_cell_range(
-        start,
-        end,
-        origin=grid.origin,
-        pitch=grid.pitch,
+    for idx, (drill_x, drill_y) in enumerate(
+        get_drill_positions_in_cell_range(
+            start,
+            end,
+            origin=grid.origin,
+            pitch=grid.pitch,
+        )
     ):
         yield ElementTree.SubElement(
             g,
             "circle",
             attrib={
+                "id": f"{item.id}-{idx}",
                 "cx": f"{drill_x}mm",
                 "cy": f"{drill_y}mm",
                 "r": "0.5mm",

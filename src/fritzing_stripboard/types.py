@@ -1,5 +1,6 @@
 import datetime
 from typing import Any, Iterable, Protocol
+import uuid
 from xml.etree import ElementTree
 
 from pydantic import BaseModel, Field
@@ -13,7 +14,7 @@ class BoardMetadata(BaseModel):
     author: str = "Adam Coddington"
 
     title: str
-    date: datetime.datetime = Field(default_factory=lambda: datetime.datetime.utcnow())
+    date: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
     label: str
 
     properties: dict[str, str] = Field(default_factory=dict)
@@ -22,6 +23,7 @@ class BoardMetadata(BaseModel):
 
 
 class XYDrilledBus(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
     drilled: str = Field(regex=XYPathPattern)
 
 
@@ -48,7 +50,7 @@ class BoardSpecification(BaseModel):
     board: list[GridDefinition] = Field(default_factory=list)
 
 
-class NodeHandler(Protocol):
+class SvgNodeHandler(Protocol):
     def __call__(
         self, element: ElementTree.Element, config: Any, **kwargs
     ) -> Iterable[ElementTree.Element]:
