@@ -108,29 +108,6 @@ def handle_xy_drilled_bus_rows(
                 "style": "stroke-linecap:round; stroke-opacity: 0.5;",
             },
         )
-        ElementTree.SubElement(
-            bus,
-            "nodeMember",
-            attrib={"connectorId": line_connector_id},
-        )
-        connector = ElementTree.SubElement(
-            connectors_element,
-            "connector",
-            attrib={
-                "type": "pad",
-                "name": line_connector_id,
-                "id": line_connector_id,
-            },
-        )
-        connector_views = ElementTree.SubElement(connector, "views")
-        connector_breadboard_view = ElementTree.SubElement(
-            connector_views, "breadboardView"
-        )
-        ElementTree.SubElement(
-            connector_breadboard_view,
-            "p",
-            attrib={"layer": "breadboard", "svgId": line_connector_id},
-        )
 
         for idx, (drill_x, drill_y) in enumerate(
             get_drill_positions_between_coordinates(
@@ -226,29 +203,6 @@ def handle_xy_drilled_bus_columns(
                 "stroke-width": "1.5mm",
                 "style": "stroke-linecap:round; stroke-opacity: 0.5;",
             },
-        )
-        ElementTree.SubElement(
-            bus,
-            "nodeMember",
-            attrib={"connectorId": line_connector_id},
-        )
-        connector = ElementTree.SubElement(
-            connectors_element,
-            "connector",
-            attrib={
-                "type": "pad",
-                "name": line_connector_id,
-                "id": line_connector_id,
-            },
-        )
-        connector_views = ElementTree.SubElement(connector, "views")
-        connector_breadboard_view = ElementTree.SubElement(
-            connector_views, "breadboardView"
-        )
-        ElementTree.SubElement(
-            connector_breadboard_view,
-            "p",
-            attrib={"layer": "breadboard", "svgId": line_connector_id},
         )
 
         for idx, (drill_x, drill_y) in enumerate(
@@ -370,79 +324,55 @@ def handle_xy_drilled_bus(
             "style": "stroke-linecap:round; stroke-opacity: 0.5;",
         },
     )
-    ElementTree.SubElement(
-        bus,
-        "nodeMember",
-        attrib={"connectorId": line_connector_id},
-    )
-    connector = ElementTree.SubElement(
-        connectors_element,
-        "connector",
-        attrib={
-            "type": "pad",
-            "name": line_connector_id,
-            "id": line_connector_id,
-        },
-    )
-    connector_views = ElementTree.SubElement(connector, "views")
-    connector_breadboard_view = ElementTree.SubElement(
-        connector_views, "breadboardView"
-    )
-    ElementTree.SubElement(
-        connector_breadboard_view,
-        "p",
-        attrib={"layer": "breadboard", "svgId": line_connector_id},
-    )
 
-    if drilled:
-        for idx, (drill_x, drill_y) in enumerate(
-            get_drill_positions_between_coordinates(
-                (start_coord_x, start_coord_y),
-                (end_coord_x, end_coord_y),
-                origin=grid.origin,
-                pitch=grid.pitch,
-            )
-        ):
-            connector_id = f"{item.id}-{idx}"
+    for idx, (drill_x, drill_y) in enumerate(
+        get_drill_positions_between_coordinates(
+            (start_coord_x, start_coord_y),
+            (end_coord_x, end_coord_y),
+            origin=grid.origin,
+            pitch=grid.pitch,
+        )
+    ):
+        connector_id = f"{item.id}-{idx}"
 
-            ElementTree.SubElement(
-                svg_element,
-                "circle",
-                attrib={
-                    "id": connector_id,
-                    "cx": f"{drill_x}mm",
-                    "cy": f"{drill_y}mm",
-                    "r": "0.5mm",
-                    "stroke-width": "0.35mm",
-                    "stroke": "brown",
-                    "fill": "none",
-                },
-            )
+        ElementTree.SubElement(
+            svg_element,
+            "circle",
+            attrib={
+                "id": connector_id,
+                "cx": f"{drill_x}mm",
+                "cy": f"{drill_y}mm",
+                "r": "0.5mm" if drilled else "0.1mm",
+                "stroke-width": "0.35mm" if drilled else "0.1mm",
+                "stroke": "brown",
+                "fill": "none",
+            },
+        )
 
-            ElementTree.SubElement(
-                bus,
-                "nodeMember",
-                attrib={"connectorId": connector_id},
-            )
+        ElementTree.SubElement(
+            bus,
+            "nodeMember",
+            attrib={"connectorId": connector_id},
+        )
 
-            connector = ElementTree.SubElement(
-                connectors_element,
-                "connector",
-                attrib={
-                    "type": "female",
-                    "name": connector_id,
-                    "id": connector_id,
-                },
-            )
-            connector_views = ElementTree.SubElement(connector, "views")
-            connector_breadboard_view = ElementTree.SubElement(
-                connector_views, "breadboardView"
-            )
-            ElementTree.SubElement(
-                connector_breadboard_view,
-                "p",
-                attrib={"layer": "breadboard", "svgId": connector_id},
-            )
+        connector = ElementTree.SubElement(
+            connectors_element,
+            "connector",
+            attrib={
+                "type": "female" if drilled else "pad",
+                "name": connector_id,
+                "id": connector_id,
+            },
+        )
+        connector_views = ElementTree.SubElement(connector, "views")
+        connector_breadboard_view = ElementTree.SubElement(
+            connector_views, "breadboardView"
+        )
+        ElementTree.SubElement(
+            connector_breadboard_view,
+            "p",
+            attrib={"layer": "breadboard", "svgId": connector_id},
+        )
 
 
 def handle_grid_definition(
