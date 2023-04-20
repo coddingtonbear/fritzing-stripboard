@@ -65,7 +65,6 @@ setup(
         "Topic :: Utilities",
     ],
     project_urls={
-        "Changelog": "https://fritzing-stripboard.readthedocs.io/en/latest/changelog.html",
         "Issue Tracker": "https://github.com/coddingtonbear/fritzing-stripboard/issues",
     },
     keywords=[

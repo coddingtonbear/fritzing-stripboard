@@ -21,7 +21,10 @@ class BoardMetadata(BaseModel):
 
     properties: dict[str, str] = Field(default_factory=dict)
     taxonomy: str = "prototyping.perfboard.perfboard"
-    description: str = "Stripboard generated with https://github.com/coddingtonbear/fritzing-stripboard"
+    description: str = (
+        "Stripboard generated with "
+        "https://github.com/coddingtonbear/fritzing-stripboard"
+    )
 
 
 class XYDrilledBus(BaseModel):
