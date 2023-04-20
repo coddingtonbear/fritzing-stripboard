@@ -176,16 +176,21 @@ def handle_xy_drilled_bus_columns(
 
     x_offset = min(start_coord_x, end_coord_x)
     for x in range(abs(end_coord_x - start_coord_x) + 1):
+        bus_id = f"{item.id}-{x}"
+        bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": bus_id})
+
         line_start_position = convert_coordinate_to_position(
             (x + x_offset, start_coord_y), origin=grid.origin, pitch=grid.pitch
         )
         line_end_position = convert_coordinate_to_position(
             (x + x_offset, end_coord_y), origin=grid.origin, pitch=grid.pitch
         )
+        line_connector_id = f"{item.id}-{x}-trace"
         ElementTree.SubElement(
             svg_element,
             "line",
             attrib={
+                "id": line_connector_id,
                 "x1": f"{line_start_position[0]}mm",
                 "y1": f"{line_start_position[1]}mm",
                 "x2": f"{line_end_position[0]}mm",
@@ -195,9 +200,29 @@ def handle_xy_drilled_bus_columns(
                 "style": "stroke-linecap:round; stroke-opacity: 0.5;",
             },
         )
-
-        bus_id = f"{item.id}-{x}"
-        bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": bus_id})
+        ElementTree.SubElement(
+            bus,
+            "nodeMember",
+            attrib={"connectorId": line_connector_id},
+        )
+        connector = ElementTree.SubElement(
+            connectors_element,
+            "connector",
+            attrib={
+                "type": "pad",
+                "name": line_connector_id,
+                "id": line_connector_id,
+            },
+        )
+        connector_views = ElementTree.SubElement(connector, "views")
+        connector_breadboard_view = ElementTree.SubElement(
+            connector_views, "breadboardView"
+        )
+        ElementTree.SubElement(
+            connector_breadboard_view,
+            "p",
+            attrib={"layer": "breadboard", "svgId": line_connector_id},
+        )
 
         for idx, (drill_x, drill_y) in enumerate(
             get_drill_positions_between_coordinates(
