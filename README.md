@@ -2,6 +2,8 @@
 
 Generates Fritzing components matching your particular stripboard.
 
+![](https://coddingtonbear-public.s3.us-west-2.amazonaws.com/github/fritzing-stripboard/practical.png)
+
 Inspired by Robert P Heller's project having a similar aim: https://github.com/RobertPHeller/fritzing-Stripboards
 
 ## Installation
