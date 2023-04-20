@@ -24,9 +24,9 @@ def read(*names, **kwargs):
 
 setup(
     name="fritzing-stripboard",
-    version="0.1.0",
+    version="1.0.0",
     license="MIT",
-    description="An example package. Generated with cookiecutter-pylibrary.",
+    description="Generate Fritzing components that match your stripboard",
     long_description_content_type="text/markdown",
     long_description="%s"
     % (
