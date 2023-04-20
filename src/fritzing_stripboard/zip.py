@@ -14,6 +14,7 @@ from .types import (
     BoardSpecification,
     NodeHandler,
     GridDefinition,
+    SharedBus,
     XYBus,
     XYDrilledBus,
     XYDrilledBusColumns,
@@ -36,12 +37,30 @@ def get_handler(component: BaseModel) -> NodeHandler:
         XYDrilledBusColumns: handle_xy_drilled_bus_columns,
         XYDrilledBusRows: handle_xy_drilled_bus_rows,
         XYBus: handle_xy_bus,
+        SharedBus: handle_shared_bus,
     }
 
     try:
         return handlers[type(component)]
     except KeyError as exc:
         raise NodeTypeNotImplemented(component) from exc
+
+
+def handle_shared_bus(
+    svg_element: ElementTree.Element,
+    connectors_element: ElementTree.Element,
+    buses_element: ElementTree.Element,
+    config: SharedBus,
+    **kwargs,
+) -> None:
+    bus = kwargs.get(
+        "bus",
+        ElementTree.SubElement(buses_element, "bus", attrib={"id": str(config.id)}),
+    )
+
+    for item in config.shared_bus:
+        handler = get_handler(item)
+        handler(svg_element, connectors_element, buses_element, item, bus=bus, **kwargs)
 
 
 def handle_xy_drilled_bus_rows(
@@ -61,8 +80,12 @@ def handle_xy_drilled_bus_rows(
 
     y_offset = min(start_coord_y, end_coord_y)
     for y in range(abs(end_coord_y - start_coord_y) + 1):
-        bus_id = f"{item.id}-{y}"
-        bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": bus_id})
+        bus = kwargs.get(
+            "bus",
+            ElementTree.SubElement(
+                buses_element, "bus", attrib={"id": f"{item.id}-{y}"}
+            ),
+        )
 
         line_start_position = convert_coordinate_to_position(
             (start_coord_x, y + y_offset), origin=grid.origin, pitch=grid.pitch
@@ -176,8 +199,12 @@ def handle_xy_drilled_bus_columns(
 
     x_offset = min(start_coord_x, end_coord_x)
     for x in range(abs(end_coord_x - start_coord_x) + 1):
-        bus_id = f"{item.id}-{x}"
-        bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": bus_id})
+        bus = kwargs.get(
+            "bus",
+            ElementTree.SubElement(
+                buses_element, "bus", attrib={"id": f"{item.id}-{x}"}
+            ),
+        )
 
         line_start_position = convert_coordinate_to_position(
             (x + x_offset, start_coord_y), origin=grid.origin, pitch=grid.pitch
@@ -324,7 +351,9 @@ def handle_xy_drilled_bus(
     if not (start_x == end_x or end_y == start_y):
         raise InvalidCellRange(cell_range)
 
-    bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": str(item.id)})
+    bus = kwargs.get(
+        "bus", ElementTree.SubElement(buses_element, "bus", attrib={"id": str(item.id)})
+    )
 
     line_connector_id = f"{item.id}-trace"
     ElementTree.SubElement(

@@ -44,7 +44,16 @@ class XYDrilledBusColumns(BaseModel):
     drilled_bus_columns: str = Field(regex=CellRangePattern)
 
 
-GridComponent = Union[XYBus, XYDrilledBus, XYDrilledBusColumns, XYDrilledBusRows]
+class SharedBus(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    shared_bus: Sequence["GridComponent"] = Field(default_factory=list)
+
+
+GridComponent = Union[
+    XYBus, XYDrilledBus, XYDrilledBusColumns, XYDrilledBusRows, SharedBus
+]
+
+SharedBus.update_forward_refs()
 
 
 class GridDefinitionData(BaseModel):
