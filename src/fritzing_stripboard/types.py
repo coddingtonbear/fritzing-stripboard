@@ -1,12 +1,12 @@
 import datetime
-from typing import Any, Iterable, Protocol
+from typing import Any, Protocol, Union, Sequence
 import uuid
 from xml.etree import ElementTree
 
 from pydantic import BaseModel, Field
 
 
-XYPathPattern = r"([A-Z]+\d+):([A-Z]+\d+)"
+CellRangePattern = r"([A-Z]+\d+):([A-Z]+\d+)"
 
 
 class BoardMetadata(BaseModel):
@@ -26,16 +26,26 @@ class BoardMetadata(BaseModel):
 
 class XYDrilledBus(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    drilled: str = Field(regex=XYPathPattern)
+    drilled: str = Field(regex=CellRangePattern)
 
 
-XYGridComponent = XYDrilledBus
+class XYDrilledBusRows(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    drilled_bus_rows: str = Field(regex=CellRangePattern)
+
+
+class XYDrilledBusColumns(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    drilled_bus_columns: str = Field(regex=CellRangePattern)
+
+
+GridComponent = Union[XYDrilledBus, XYDrilledBusColumns, XYDrilledBusRows]
 
 
 class GridDefinitionData(BaseModel):
     origin: tuple[float, float] = (0, 0)
     pitch: float = 2.54
-    components: list[XYGridComponent] = Field(default_factory=list)
+    components: Sequence[GridComponent] = Field(default_factory=list)
 
 
 class GridDefinition(BaseModel):

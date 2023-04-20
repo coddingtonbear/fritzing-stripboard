@@ -38,14 +38,14 @@ def convert_coordinate_to_position(
     return x * pitch + pitch / 2 + origin[0], y * pitch + pitch / 2 + origin[1]
 
 
-def get_drill_positions_in_cell_range(
-    start: str,
-    end: str,
+def get_drill_positions_between_coordinates(
+    start: tuple[int, int],
+    end: tuple[int, int],
     origin: tuple[float, float] = (0, 0),
     pitch: float = DEFAULT_PITCH,
 ) -> Iterable[tuple[float, float]]:
-    start_x, start_y = convert_cell_to_coordinate(start)
-    end_x, end_y = convert_cell_to_coordinate(end)
+    start_x, start_y = start
+    end_x, end_y = end
 
     x_offset = min(start_x, end_x)
     y_offset = min(start_y, end_y)

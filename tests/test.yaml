@@ -10,11 +10,12 @@ board:
         - drilled: F2:J2
         - drilled: L2:P2
         - drilled: R2:S2
-        - drilled: B3:D3
-        - drilled: F3:J3
-        - drilled: L3:P3
-        - drilled: R3:S3
-        - drilled: B4:D4
-        - drilled: F4:J4
-        - drilled: L4:P4
-        - drilled: R4:S4
+        #- drilled: B3:D3
+        #- drilled: F3:J3
+        #- drilled: L3:P3
+        #- drilled: R3:S3
+        #- drilled: B4:D4
+        #- drilled: F4:J4
+        #- drilled: L4:P4
+        #- drilled: R4:S4
+        - drilled_bus_rows: B3:D36
