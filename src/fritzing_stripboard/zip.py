@@ -70,10 +70,12 @@ def handle_xy_drilled_bus_rows(
         line_end_position = convert_coordinate_to_position(
             (end_coord_x, y + y_offset), origin=grid.origin, pitch=grid.pitch
         )
+        line_connector_id = f"{item.id}-{y}-trace"
         ElementTree.SubElement(
             svg_element,
             "line",
             attrib={
+                "id": line_connector_id,
                 "x1": f"{line_start_position[0]}mm",
                 "y1": f"{line_start_position[1]}mm",
                 "x2": f"{line_end_position[0]}mm",
@@ -82,6 +84,29 @@ def handle_xy_drilled_bus_rows(
                 "stroke-width": "1.5mm",
                 "style": "stroke-linecap:round; stroke-opacity: 0.5;",
             },
+        )
+        ElementTree.SubElement(
+            bus,
+            "nodeMember",
+            attrib={"connectorId": line_connector_id},
+        )
+        connector = ElementTree.SubElement(
+            connectors_element,
+            "connector",
+            attrib={
+                "type": "pad",
+                "name": line_connector_id,
+                "id": line_connector_id,
+            },
+        )
+        connector_views = ElementTree.SubElement(connector, "views")
+        connector_breadboard_view = ElementTree.SubElement(
+            connector_views, "breadboardView"
+        )
+        ElementTree.SubElement(
+            connector_breadboard_view,
+            "p",
+            attrib={"layer": "breadboard", "svgId": line_connector_id},
         )
 
         for idx, (drill_x, drill_y) in enumerate(
