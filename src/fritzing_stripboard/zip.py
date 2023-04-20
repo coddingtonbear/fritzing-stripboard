@@ -326,10 +326,12 @@ def handle_xy_drilled_bus(
 
     bus = ElementTree.SubElement(buses_element, "bus", attrib={"id": str(item.id)})
 
+    line_connector_id = f"{item.id}-trace"
     ElementTree.SubElement(
         svg_element,
         "line",
         attrib={
+            "id": line_connector_id,
             "x1": f"{start_x}mm",
             "y1": f"{start_y}mm",
             "x2": f"{end_x}mm",
@@ -338,6 +340,29 @@ def handle_xy_drilled_bus(
             "stroke-width": "1.5mm",
             "style": "stroke-linecap:round; stroke-opacity: 0.5;",
         },
+    )
+    ElementTree.SubElement(
+        bus,
+        "nodeMember",
+        attrib={"connectorId": line_connector_id},
+    )
+    connector = ElementTree.SubElement(
+        connectors_element,
+        "connector",
+        attrib={
+            "type": "pad",
+            "name": line_connector_id,
+            "id": line_connector_id,
+        },
+    )
+    connector_views = ElementTree.SubElement(connector, "views")
+    connector_breadboard_view = ElementTree.SubElement(
+        connector_views, "breadboardView"
+    )
+    ElementTree.SubElement(
+        connector_breadboard_view,
+        "p",
+        attrib={"layer": "breadboard", "svgId": line_connector_id},
     )
 
     if drilled:
