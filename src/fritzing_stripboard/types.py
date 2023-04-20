@@ -52,8 +52,13 @@ class BoardSpecification(BaseModel):
     board: list[GridDefinition] = Field(default_factory=list)
 
 
-class SvgNodeHandler(Protocol):
+class NodeHandler(Protocol):
     def __call__(
-        self, element: ElementTree.Element, config: Any, **kwargs
-    ) -> Iterable[ElementTree.Element]:
+        self,
+        svg_element: ElementTree.Element,
+        connectors_element: ElementTree.Element,
+        buses_element: ElementTree.Element,
+        config: Any,
+        **kwargs
+    ) -> None:
         ...
