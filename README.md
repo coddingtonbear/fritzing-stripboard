@@ -73,7 +73,7 @@ The above will generate a board that looks like:
 Definitions for boards use excel-like grid square ranges for defining
 where new bus (trace) or drilled hole elements should appear:
 
-![](https://coddingtonbear-public.s3.us-west-2.amazonaws.com/github/fritzing-stripboard/grid.png)
+![](https://coddingtonbear-public.s3.us-west-2.amazonaws.com/github/fritzing-stripboard/columns_rows.png)
 
 
 ### Components
