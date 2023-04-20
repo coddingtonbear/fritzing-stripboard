@@ -6,6 +6,13 @@ height: 100.5
 board:
   - grid:
       components:
+        - bus: A1:T1
+        - bus: A37:T37
+        - bus: E1:E36
+        - bus: Q1:Q36
+        - bus: A2:A37
+        - bus: K2:K37
+        - bus: T2:T37
         - drilled_bus_rows: B2:D36
         - drilled_bus_rows: F2:J36
         - drilled_bus_rows: L2:P36

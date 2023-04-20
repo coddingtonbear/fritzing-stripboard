@@ -29,6 +29,11 @@ class XYDrilledBus(BaseModel):
     drilled: str = Field(regex=CellRangePattern)
 
 
+class XYBus(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    bus: str = Field(regex=CellRangePattern)
+
+
 class XYDrilledBusRows(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
     drilled_bus_rows: str = Field(regex=CellRangePattern)
@@ -39,7 +44,7 @@ class XYDrilledBusColumns(BaseModel):
     drilled_bus_columns: str = Field(regex=CellRangePattern)
 
 
-GridComponent = Union[XYDrilledBus, XYDrilledBusColumns, XYDrilledBusRows]
+GridComponent = Union[XYBus, XYDrilledBus, XYDrilledBusColumns, XYDrilledBusRows]
 
 
 class GridDefinitionData(BaseModel):
