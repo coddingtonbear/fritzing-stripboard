@@ -15,7 +15,7 @@ board:
           - bus: T2:T37
           - bus: A2:A37
           - bus: K2:K37
-        - drilled_bus_rows: B2:D36
-        - drilled_bus_rows: F2:J36
-        - drilled_bus_rows: L2:P36
-        - drilled_bus_rows: R2:S36
+        - drilled_rows: B2:D36
+        - drilled_rows: F2:J36
+        - drilled_rows: L2:P36
+        - drilled_rows: R2:S36

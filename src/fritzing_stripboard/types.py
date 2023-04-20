@@ -36,12 +36,12 @@ class XYBus(BaseModel):
 
 class XYDrilledBusRows(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    drilled_bus_rows: str = Field(regex=CellRangePattern)
+    drilled_rows: str = Field(regex=CellRangePattern)
 
 
 class XYDrilledBusColumns(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    drilled_bus_columns: str = Field(regex=CellRangePattern)
+    drilled_columns: str = Field(regex=CellRangePattern)
 
 
 class SharedBus(BaseModel):

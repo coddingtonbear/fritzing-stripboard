@@ -73,7 +73,7 @@ def handle_xy_drilled_bus_rows(
     item = config
     grid: GridDefinitionData = kwargs["grid"]
 
-    start, end = item.drilled_bus_rows.split(":")
+    start, end = item.drilled_rows.split(":")
 
     start_coord_x, start_coord_y = convert_cell_to_coordinate(start)
     end_coord_x, end_coord_y = convert_cell_to_coordinate(end)
@@ -163,13 +163,13 @@ def handle_xy_drilled_bus_columns(
     svg_element: ElementTree.Element,
     connectors_element: ElementTree.Element,
     buses_element: ElementTree.Element,
-    config: XYDrilledBusRows,
+    config: XYDrilledBusColumns,
     **kwargs,
 ) -> None:
     item = config
     grid: GridDefinitionData = kwargs["grid"]
 
-    start, end = item.drilled_bus_rows.split(":")
+    start, end = item.drilled_columns.split(":")
 
     start_coord_x, start_coord_y = convert_cell_to_coordinate(start)
     end_coord_x, end_coord_y = convert_cell_to_coordinate(end)
