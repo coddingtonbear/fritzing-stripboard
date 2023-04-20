@@ -1,13 +1,10 @@
 import argparse
 import sys
-from xml.etree import ElementTree
-import zipfile
 
 import yaml
 
 from .types import BoardSpecification
-from .svg import build_svg
-from .fzp import build_fzp
+from .zip import build_zip
 
 
 def main(args=sys.argv):
@@ -18,12 +15,4 @@ def main(args=sys.argv):
 
     loaded = BoardSpecification.parse_obj(yaml.safe_load(args.path))
 
-    svg_document = build_svg(loaded)
-    fzp_document = build_fzp(loaded)
-
-    with zipfile.ZipFile(args.output, mode="w") as archive:
-        with archive.open(f"part.{loaded.meta.label}.fzp", "w") as fzpf:
-            fzpf.write(ElementTree.tostring(fzp_document))
-
-        with archive.open(f"svg.breadboard.{loaded.meta.label}.svg", "w") as svgf:
-            svgf.write(ElementTree.tostring(svg_document))
+    build_zip(loaded, args.output)

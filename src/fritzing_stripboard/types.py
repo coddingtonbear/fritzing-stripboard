@@ -10,6 +10,8 @@ XYPathPattern = r"([A-Z]+\d+):([A-Z]+\d+)"
 
 
 class BoardMetadata(BaseModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+
     version: str = "1.0"
     author: str = "Adam Coddington"
 

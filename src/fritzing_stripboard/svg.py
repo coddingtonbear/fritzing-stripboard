@@ -113,7 +113,7 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
         attrib={
             "width": f"{board.width}mm",
             "height": f"{board.height}mm",
-            "viewbox": f"0 0 {board.width}mm {board.height}mm",
+            "viewBox": f"0 0 {board.width} {board.height}",
         },
     )
     g = ElementTree.SubElement(root, "g", attrib={"id": "breadboard"})
@@ -122,7 +122,6 @@ def build_svg(board: BoardSpecification) -> ElementTree.Element:
         g,
         "path",
         attrib={
-            "transform": "scale(35433)",
             "id": "boardoutline",
             "strokewidth": "0",
             "stroke": "none",

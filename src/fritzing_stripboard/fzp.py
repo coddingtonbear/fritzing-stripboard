@@ -3,15 +3,17 @@ from xml.etree import ElementTree
 from .types import BoardSpecification, GridDefinition, XYDrilledBus
 from .grid import get_drill_positions_in_cell_range
 
+#  @TODO: 'text' is not the right way to set innertext!
+
 
 def build_fzp(board: BoardSpecification) -> ElementTree.Element:
-    root = ElementTree.Element("module", attrib={"moduleId": board.meta.title})
+    root = ElementTree.Element("module", attrib={"moduleId": str(board.meta.id)})
 
-    ElementTree.SubElement(root, "version", text=board.meta.version)
-    ElementTree.SubElement(root, "author", text=board.meta.author)
-    ElementTree.SubElement(root, "title", text=board.meta.title)
-    ElementTree.SubElement(root, "date", text=board.meta.date.isoformat())
-    ElementTree.SubElement(root, "label", text=board.meta.label)
+    ElementTree.SubElement(root, "version").text = board.meta.version
+    ElementTree.SubElement(root, "author").text = board.meta.author
+    ElementTree.SubElement(root, "title").text = board.meta.title
+    ElementTree.SubElement(root, "date").text = board.meta.date.isoformat()
+    ElementTree.SubElement(root, "label").text = board.meta.label
     ElementTree.SubElement(root, "tags")
 
     properties = ElementTree.SubElement(root, "properties")
@@ -19,40 +21,39 @@ def build_fzp(board: BoardSpecification) -> ElementTree.Element:
         properties,
         "property",
         attrib={"name": "size"},
-        text=f"{board.width}mm X {board.height}mm",
-    )
+    ).text = f"{board.width}mm X {board.height}mm"
     ElementTree.SubElement(
-        properties, "property", attrib={"name": "family"}, text="Generic Stripboard"
-    )
+        properties, "property", attrib={"name": "family"}
+    ).text = "Generic Stripboard"
 
-    ElementTree.SubElement(root, "taxonomy", text=board.meta.taxonomy)
-    ElementTree.SubElement(root, "description", text=board.meta.description)
+    ElementTree.SubElement(root, "taxonomy").text = board.meta.taxonomy
+    ElementTree.SubElement(root, "description").text = board.meta.description
 
     views = ElementTree.SubElement(root, "views")
 
     icon_view = ElementTree.SubElement(views, "iconView")
     layers = ElementTree.SubElement(
-        icon_view, "layers", attrib={"image": "breadboard/main.svg"}
+        icon_view, "layers", attrib={"image": f"breadboard/{board.meta.id}.svg"}
     )
-    ElementTree.SubElement(layers, "layer", attrib={"layerId": "icon/"})
+    ElementTree.SubElement(layers, "layer", attrib={"layerId": "icon"})
 
     breadboard_view = ElementTree.SubElement(views, "breadboardView")
     layers = ElementTree.SubElement(
-        breadboard_view, "layers", attrib={"image": "breadboard/main.svg"}
+        breadboard_view, "layers", attrib={"image": f"breadboard/{board.meta.id}.svg"}
     )
-    ElementTree.SubElement(layers, "layer", attrib={"layerId": "breadboard/"})
+    ElementTree.SubElement(layers, "layer", attrib={"layerId": "breadboard"})
 
     schematic_view = ElementTree.SubElement(views, "schematicView")
     layers = ElementTree.SubElement(
-        schematic_view, "layers", attrib={"image": "breadboard/main.svg"}
+        schematic_view, "layers", attrib={"image": f"breadboard/{board.meta.id}.svg"}
     )
-    ElementTree.SubElement(layers, "layer", attrib={"layerId": "schematic/"})
+    ElementTree.SubElement(layers, "layer", attrib={"layerId": "schematic"})
 
     pcb_view = ElementTree.SubElement(views, "pcbView")
     layers = ElementTree.SubElement(
-        pcb_view, "layers", attrib={"image": "breadboard/main.svg"}
+        pcb_view, "layers", attrib={"image": f"breadboard/{board.meta.id}.svg"}
     )
-    ElementTree.SubElement(layers, "layer", attrib={"layerId": "pcb/"})
+    ElementTree.SubElement(layers, "layer", attrib={"layerId": "pcb"})
 
     connectors = ElementTree.SubElement(root, "connectors")
     buses = ElementTree.SubElement(root, "buses")
