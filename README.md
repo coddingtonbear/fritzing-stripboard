@@ -28,7 +28,16 @@ fritzing-stripboard /path/to/board.yaml /path/to/output/part.fzpz
 
 ## Defining Your Board
 
-Example:
+While digging through my project supplies, I happened across a
+large collection of stripboards that look like this:
+
+![](https://coddingtonbear-public.s3.us-west-2.amazonaws.com/github/fritzing-stripboard/amz_example.jpg)
+
+Although there are stripboards available online for Fritzing,
+none quite looked like this.  Luckily, though, generating a 
+Fritzing part for this board can be done easily with just a little
+bit of yaml:
+
 
 ```yaml
 meta:
