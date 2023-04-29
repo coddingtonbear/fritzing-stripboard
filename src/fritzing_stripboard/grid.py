@@ -35,7 +35,12 @@ def convert_coordinate_to_position(
     pitch = grid_meta.pitch
     origin = grid_meta.origin
 
-    return x * pitch + pitch / 2 + origin[0], y * pitch + pitch / 2 + origin[1]
+    x_position = x * pitch + pitch / 2
+    y_position = y * pitch + pitch / 2
+    if grid_meta.back:
+        x_position *= -1
+
+    return origin[0] + x_position, origin[1] + y_position
 
 
 def get_drill_positions_between_coordinates(
@@ -45,8 +50,6 @@ def get_drill_positions_between_coordinates(
 ) -> Iterable[tuple[float, float]]:
     start_x, start_y = start
     end_x, end_y = end
-    origin = grid_meta.origin
-    pitch = grid_meta.pitch
 
     x_offset = min(start_x, end_x)
     y_offset = min(start_y, end_y)

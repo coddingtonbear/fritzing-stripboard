@@ -81,7 +81,7 @@ Grid supports a handful of properties including:
 - `meta`: An optional object containing any of the following keys:
   - `origin`: The position at which the grid is positioned, relative to the upper-left corner, in millimeters.  By default: `[0, 0]`.
   - `pitch`: The pitch of grid elements in millimeters.  By default: `2.54`.
-  - `back`: Whether there is copper only on one side of the board.  In such a case, you need to install your ICs on the side without printed traces. You can describe your stripboard's grid as you see it, but it will be mirrored when generated.  By default: `False`.
+  - `back`: Whether there is copper only on one side of the board.  In such a case, you need to install your ICs on the side without printed traces. You can describe your stripboard's grid as you see it, but it will be mirrored when generated.  *Note*: When using this, you will also want to set `origin` to be the upper-right corner of your grid instead of leaving it unset.  By default: `False`.
 
 
 ### Components

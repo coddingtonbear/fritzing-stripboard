@@ -3,13 +3,18 @@ from typing import Any, Protocol, Union, Sequence
 import uuid
 from xml.etree import ElementTree
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Extra
 
 
 CellRangePattern = r"([A-Z]+\d+):([A-Z]+\d+)"
 
 
-class BoardMetadata(BaseModel):
+class BaseFritzingStripboardModel(BaseModel):
+    class Config:
+        extra = Extra.forbid
+
+
+class BoardMetadata(BaseFritzingStripboardModel):
     id: str = Field(default_factory=uuid.uuid4)
 
     width: float
@@ -30,7 +35,7 @@ class BoardMetadata(BaseModel):
     )
 
 
-class GridComponentBaseModel(BaseModel):
+class GridComponentBaseModel(BaseFritzingStripboardModel):
     id: str = Field(default_factory=uuid.uuid4)
 
 
@@ -61,24 +66,25 @@ GridComponent = Union[
 SharedBus.update_forward_refs()
 
 
-class GridMetadata(BaseModel):
+class GridMetadata(BaseFritzingStripboardModel):
     origin: tuple[float, float] = (0, 0)
     pitch: float = 2.54
+    back: bool = False
 
 
-class GridDefinitionData(BaseModel):
+class GridDefinitionData(BaseFritzingStripboardModel):
     meta: GridMetadata = Field(default_factory=GridMetadata)
     components: Sequence[GridComponent] = Field(default_factory=list)
 
 
-class GridDefinition(BaseModel):
+class GridDefinition(BaseFritzingStripboardModel):
     grid: GridDefinitionData
 
 
 BoardComponent = GridDefinition
 
 
-class BoardSpecification(BaseModel):
+class BoardSpecification(BaseFritzingStripboardModel):
     meta: BoardMetadata
     board: list[GridDefinition] = Field(default_factory=list)
 

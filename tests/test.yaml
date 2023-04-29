@@ -6,7 +6,9 @@ meta:
   height: 100.5
 board:
   - grid:
-      back: true
+      meta:
+        back: true
+        origin: [50.5, 0]
       components:
         - shared_bus:
           - bus: A1:T1
