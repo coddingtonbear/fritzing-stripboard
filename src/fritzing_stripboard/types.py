@@ -27,28 +27,27 @@ class BoardMetadata(BaseModel):
     )
 
 
-class XYDrilledBus(BaseModel):
+class GridComponentBaseModel(BaseModel):
     id: str = Field(default_factory=uuid.uuid4)
+
+
+class XYDrilledBus(GridComponentBaseModel):
     drilled: str = Field(regex=CellRangePattern)
 
 
-class XYBus(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4)
+class XYBus(GridComponentBaseModel):
     bus: str = Field(regex=CellRangePattern)
 
 
-class XYDrilledBusRows(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4)
+class XYDrilledBusRows(GridComponentBaseModel):
     drilled_rows: str = Field(regex=CellRangePattern)
 
 
-class XYDrilledBusColumns(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4)
+class XYDrilledBusColumns(GridComponentBaseModel):
     drilled_columns: str = Field(regex=CellRangePattern)
 
 
-class SharedBus(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4)
+class SharedBus(GridComponentBaseModel):
     shared_bus: Sequence["GridComponent"] = Field(default_factory=list)
 
 
