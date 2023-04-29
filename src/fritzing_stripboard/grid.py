@@ -1,8 +1,7 @@
 import re
 from typing import Iterable
 
-
-from .constants import DEFAULT_PITCH
+from .types import GridMetadata
 
 
 class InvalidCellRange(Exception):
@@ -29,11 +28,12 @@ def convert_cell_to_coordinate(cell: str) -> tuple[int, int]:
 
 def convert_coordinate_to_position(
     coordinate: tuple[int, int],
-    origin: tuple[float, float] = (0, 0),
-    pitch: float = DEFAULT_PITCH,
+    grid_meta: GridMetadata,
 ) -> tuple[float, float]:
     x = coordinate[0]
     y = coordinate[1]
+    pitch = grid_meta.pitch
+    origin = grid_meta.origin
 
     return x * pitch + pitch / 2 + origin[0], y * pitch + pitch / 2 + origin[1]
 
@@ -41,17 +41,18 @@ def convert_coordinate_to_position(
 def get_drill_positions_between_coordinates(
     start: tuple[int, int],
     end: tuple[int, int],
-    origin: tuple[float, float] = (0, 0),
-    pitch: float = DEFAULT_PITCH,
+    grid_meta: GridMetadata,
 ) -> Iterable[tuple[float, float]]:
     start_x, start_y = start
     end_x, end_y = end
+    origin = grid_meta.origin
+    pitch = grid_meta.pitch
 
     x_offset = min(start_x, end_x)
     y_offset = min(start_y, end_y)
     for x in range(abs(end_x - start_x) + 1):
         for y in range(abs(end_y - start_y) + 1):
             position = convert_coordinate_to_position(
-                (x + x_offset, y + y_offset), origin=origin, pitch=pitch
+                (x + x_offset, y + y_offset), grid_meta=grid_meta
             )
             yield position

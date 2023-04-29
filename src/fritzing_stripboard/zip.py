@@ -89,11 +89,11 @@ def handle_xy_drilled_bus_rows(
 
         line_start_position = convert_coordinate_to_position(
             (start_coord_x, y + y_offset),
-            origin=grid.meta.origin,
-            pitch=grid.meta.pitch,
+            grid_meta=grid.meta,
         )
         line_end_position = convert_coordinate_to_position(
-            (end_coord_x, y + y_offset), origin=grid.meta.origin, pitch=grid.meta.pitch
+            (end_coord_x, y + y_offset),
+            grid_meta=grid.meta,
         )
         line_connector_id = f"{item.id}-{y}-trace"
         ElementTree.SubElement(
@@ -115,8 +115,7 @@ def handle_xy_drilled_bus_rows(
             get_drill_positions_between_coordinates(
                 (start_coord_x, y + y_offset),
                 (end_coord_x, y + y_offset),
-                origin=grid.meta.origin,
-                pitch=grid.meta.pitch,
+                grid_meta=grid.meta,
             )
         ):
             connector_id = f"{item.id}-{y}-{idx}"
@@ -187,11 +186,11 @@ def handle_xy_drilled_bus_columns(
 
         line_start_position = convert_coordinate_to_position(
             (x + x_offset, start_coord_y),
-            origin=grid.meta.origin,
-            pitch=grid.meta.pitch,
+            grid_meta=grid.meta,
         )
         line_end_position = convert_coordinate_to_position(
-            (x + x_offset, end_coord_y), origin=grid.meta.origin, pitch=grid.meta.pitch
+            (x + x_offset, end_coord_y),
+            grid_meta=grid.meta,
         )
         line_connector_id = f"{item.id}-{x}-trace"
         ElementTree.SubElement(
@@ -213,8 +212,7 @@ def handle_xy_drilled_bus_columns(
             get_drill_positions_between_coordinates(
                 (x + x_offset, start_coord_y),
                 (x + x_offset, end_coord_y),
-                origin=grid.meta.origin,
-                pitch=grid.meta.pitch,
+                grid_meta=grid.meta,
             )
         ):
             connector_id = f"{item.id}-{x}-{idx}"
@@ -297,13 +295,11 @@ def handle_xy_drilled_bus(
     end_coord_x, end_coord_y = convert_cell_to_coordinate(end)
     start_x, start_y = convert_coordinate_to_position(
         (start_coord_x, start_coord_y),
-        origin=grid.meta.origin,
-        pitch=grid.meta.pitch,
+        grid_meta=grid.meta,
     )
     end_x, end_y = convert_coordinate_to_position(
         (end_coord_x, end_coord_y),
-        origin=grid.meta.origin,
-        pitch=grid.meta.pitch,
+        grid_meta=grid.meta,
     )
 
     if not (start_x == end_x or end_y == start_y):
@@ -333,8 +329,7 @@ def handle_xy_drilled_bus(
         get_drill_positions_between_coordinates(
             (start_coord_x, start_coord_y),
             (end_coord_x, end_coord_y),
-            origin=grid.meta.origin,
-            pitch=grid.meta.pitch,
+            grid_meta=grid.meta,
         )
     ):
         connector_id = f"{item.id}-{idx}"
