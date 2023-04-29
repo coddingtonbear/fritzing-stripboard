@@ -88,10 +88,12 @@ def handle_xy_drilled_bus_rows(
         )
 
         line_start_position = convert_coordinate_to_position(
-            (start_coord_x, y + y_offset), origin=grid.origin, pitch=grid.pitch
+            (start_coord_x, y + y_offset),
+            origin=grid.meta.origin,
+            pitch=grid.meta.pitch,
         )
         line_end_position = convert_coordinate_to_position(
-            (end_coord_x, y + y_offset), origin=grid.origin, pitch=grid.pitch
+            (end_coord_x, y + y_offset), origin=grid.meta.origin, pitch=grid.meta.pitch
         )
         line_connector_id = f"{item.id}-{y}-trace"
         ElementTree.SubElement(
@@ -113,8 +115,8 @@ def handle_xy_drilled_bus_rows(
             get_drill_positions_between_coordinates(
                 (start_coord_x, y + y_offset),
                 (end_coord_x, y + y_offset),
-                origin=grid.origin,
-                pitch=grid.pitch,
+                origin=grid.meta.origin,
+                pitch=grid.meta.pitch,
             )
         ):
             connector_id = f"{item.id}-{y}-{idx}"
@@ -184,10 +186,12 @@ def handle_xy_drilled_bus_columns(
         )
 
         line_start_position = convert_coordinate_to_position(
-            (x + x_offset, start_coord_y), origin=grid.origin, pitch=grid.pitch
+            (x + x_offset, start_coord_y),
+            origin=grid.meta.origin,
+            pitch=grid.meta.pitch,
         )
         line_end_position = convert_coordinate_to_position(
-            (x + x_offset, end_coord_y), origin=grid.origin, pitch=grid.pitch
+            (x + x_offset, end_coord_y), origin=grid.meta.origin, pitch=grid.meta.pitch
         )
         line_connector_id = f"{item.id}-{x}-trace"
         ElementTree.SubElement(
@@ -209,8 +213,8 @@ def handle_xy_drilled_bus_columns(
             get_drill_positions_between_coordinates(
                 (x + x_offset, start_coord_y),
                 (x + x_offset, end_coord_y),
-                origin=grid.origin,
-                pitch=grid.pitch,
+                origin=grid.meta.origin,
+                pitch=grid.meta.pitch,
             )
         ):
             connector_id = f"{item.id}-{x}-{idx}"
@@ -293,13 +297,13 @@ def handle_xy_drilled_bus(
     end_coord_x, end_coord_y = convert_cell_to_coordinate(end)
     start_x, start_y = convert_coordinate_to_position(
         (start_coord_x, start_coord_y),
-        origin=grid.origin,
-        pitch=grid.pitch,
+        origin=grid.meta.origin,
+        pitch=grid.meta.pitch,
     )
     end_x, end_y = convert_coordinate_to_position(
         (end_coord_x, end_coord_y),
-        origin=grid.origin,
-        pitch=grid.pitch,
+        origin=grid.meta.origin,
+        pitch=grid.meta.pitch,
     )
 
     if not (start_x == end_x or end_y == start_y):
@@ -329,8 +333,8 @@ def handle_xy_drilled_bus(
         get_drill_positions_between_coordinates(
             (start_coord_x, start_coord_y),
             (end_coord_x, end_coord_y),
-            origin=grid.origin,
-            pitch=grid.pitch,
+            origin=grid.meta.origin,
+            pitch=grid.meta.pitch,
         )
     ):
         connector_id = f"{item.id}-{idx}"
@@ -395,9 +399,9 @@ def build_part_files(
     svg_root = ElementTree.Element(
         "svg",
         attrib={
-            "width": f"{board.width}mm",
-            "height": f"{board.height}mm",
-            "viewBox": f"0 0 {board.width} {board.height}",
+            "width": f"{board.meta.width}mm",
+            "height": f"{board.meta.height}mm",
+            "viewBox": f"0 0 {board.meta.width} {board.meta.height}",
         },
     )
     g = ElementTree.SubElement(svg_root, "g", attrib={"id": "breadboard"})
@@ -412,7 +416,7 @@ def build_part_files(
             "fill-opacity": "1",
             "d": f"""
                 M0,0
-                L{board.width},0 {board.width},{board.height} 0,{board.height} 0,0
+                L{board.meta.width},0 {board.meta.width},{board.meta.height} 0,{board.meta.height} 0,0
             """,
         },
     )
@@ -430,7 +434,7 @@ def build_part_files(
         properties,
         "property",
         attrib={"name": "size"},
-    ).text = f"{board.width}mm X {board.height}mm"
+    ).text = f"{board.meta.width}mm X {board.meta.height}mm"
     ElementTree.SubElement(
         properties, "property", attrib={"name": "family"}
     ).text = "Generic Stripboard"

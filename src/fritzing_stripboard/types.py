@@ -12,6 +12,9 @@ CellRangePattern = r"([A-Z]+\d+):([A-Z]+\d+)"
 class BoardMetadata(BaseModel):
     id: str = Field(default_factory=uuid.uuid4)
 
+    width: float
+    height: float
+
     version: str = "1.0"
     author: str = "Adam Coddington"
 
@@ -58,9 +61,13 @@ GridComponent = Union[
 SharedBus.update_forward_refs()
 
 
-class GridDefinitionData(BaseModel):
+class GridMetadata(BaseModel):
     origin: tuple[float, float] = (0, 0)
     pitch: float = 2.54
+
+
+class GridDefinitionData(BaseModel):
+    meta: GridMetadata = Field(default_factory=GridMetadata)
     components: Sequence[GridComponent] = Field(default_factory=list)
 
 
@@ -73,8 +80,6 @@ BoardComponent = GridDefinition
 
 class BoardSpecification(BaseModel):
     meta: BoardMetadata
-    width: float
-    height: float
     board: list[GridDefinition] = Field(default_factory=list)
 
 

@@ -78,8 +78,10 @@ where new bus (trace) or drilled hole elements should appear:
 Grid supports a handful of properties including:
 
 - `components`: A list of "Components" described below in "Components".
-- `origin`: The position at which the grid is positioned, relative to the upper-left corner, in millimeters.  By default: `[0, 0]`.
-- `pitch`: The pitch of grid elements in millimeters.  By default: `2.54`.
+- `meta`: An optional object containing any of the following keys:
+  - `origin`: The position at which the grid is positioned, relative to the upper-left corner, in millimeters.  By default: `[0, 0]`.
+  - `pitch`: The pitch of grid elements in millimeters.  By default: `2.54`.
+  - `back`: Whether there is copper only on one side of the board.  In such a case, you need to install your ICs on the side without printed traces. You can describe your stripboard's grid as you see it, but it will be mirrored when generated.  By default: `False`.
 
 
 ### Components

@@ -2,10 +2,11 @@ meta:
   id: 3-5-5-2 Stripboard with Solid Bus
   title: 3-5-5-2 Board with Solid Bus
   label: 3-5-5-2
-width: 50.5
-height: 100.5
+  width: 50.5
+  height: 100.5
 board:
   - grid:
+      back: true
       components:
         - shared_bus:
           - bus: A1:T1
