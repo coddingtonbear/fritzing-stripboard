@@ -75,6 +75,12 @@ where new bus (trace) or drilled hole elements should appear:
 
 ![](https://coddingtonbear-public.s3.us-west-2.amazonaws.com/github/fritzing-stripboard/columns_rows.png)
 
+Grid supports a handful of properties including:
+
+- `components`: A list of "Components" described below in "Components".
+- `origin`: The position at which the grid is positioned, relative to the upper-left corner, in millimeters.  By default: `[0, 0]`.
+- `pitch`: The pitch of grid elements in millimeters.  By default: `2.54`.
+
 
 ### Components
 
