@@ -10,7 +10,7 @@ CellRangePattern = r"([A-Z]+\d+):([A-Z]+\d+)"
 
 
 class BoardMetadata(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
 
     version: str = "1.0"
     author: str = "Adam Coddington"
@@ -28,27 +28,27 @@ class BoardMetadata(BaseModel):
 
 
 class XYDrilledBus(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
     drilled: str = Field(regex=CellRangePattern)
 
 
 class XYBus(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
     bus: str = Field(regex=CellRangePattern)
 
 
 class XYDrilledBusRows(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
     drilled_rows: str = Field(regex=CellRangePattern)
 
 
 class XYDrilledBusColumns(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
     drilled_columns: str = Field(regex=CellRangePattern)
 
 
 class SharedBus(BaseModel):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    id: str = Field(default_factory=uuid.uuid4)
     shared_bus: Sequence["GridComponent"] = Field(default_factory=list)
 
 
